@@ -1,9 +1,84 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const Classroom = () => {
-  return (
-    <div>Classroom</div>
-  )
-}
+  const currentUrl = window.location.pathname;
+  const parts = currentUrl.split('/');
+  const classCode = parts[parts.length - 1];
 
-export default Classroom
+  const [studentList, setStudentList] = useState([
+    {
+      id: 1002,
+      name: 'Gunnish',
+      present: false
+    },
+    {
+      id:1001,
+      name: 'Jatin',
+      present:true
+    }
+  ]);
+
+  useEffect(() => {
+    const response = axios.get('/classroom/:${classCode}')
+      .then(response => {
+        setJoinedClasses(response.data.joinedClasses);
+        setCreatedClasses(response.data.createdClasses);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
+
+    setStudentList(response?.data?.studentList);
+  })
+
+  const handleCheckboxChange = (index) => {
+    const updatedStudentList = [...studentList];
+    updatedStudentList[index].present = !updatedStudentList[index].present;
+    setStudentList(updatedStudentList);
+  };
+
+  const saveAttendance = () => {
+    axios.post('/updateAttendance', studentList)
+      .then(response => {
+        console.log('Attendance updated successfully');
+      })
+      .catch(error => {
+        console.error('Error updating attendance: ', error);
+      });
+  };
+
+  return (
+    <div>
+      <h1>Classroom: {classCode}</h1>
+
+      <h2>Student List: </h2>
+      <ul>
+        {studentList?.map((student, index) => (
+          <li key={student.id}>
+            <span>{student.name}</span>
+            <input
+              type="checkbox"
+              name="present"
+              checked={student.present}
+              onChange={() => handleCheckboxChange(index)}
+            />
+          </li>
+        ))}
+      </ul>
+
+      <button onClick={saveAttendance}>Save Attendance</button>
+
+      <h2>Attendance: </h2>
+      <ul>
+        {studentList?.map(student => (
+          <li key={student.id}>
+            {student.name} {student.present ? "Present" : "Absent"}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Classroom;

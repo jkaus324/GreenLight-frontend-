@@ -68,7 +68,6 @@ const Dashboard = () => {
         <div>
           <h3>Joined Classes: </h3>
           <ul>
-            {console.log(joinedClasses)}
             {joinedClasses?.map(classItem => (
               <li key={classItem.id}>{classItem.id}  {classItem.name}</li>
             ))}
