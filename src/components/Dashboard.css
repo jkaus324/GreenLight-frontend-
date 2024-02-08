@@ -4,14 +4,23 @@ body{
     justify-content: center;
     align-items: center;
 }
+.Container{
+    display: flex;
+    flex-direction: row;
+}
 .sections{
     background-color: lightblue;
-    margin: 10px;
+    margin: 100px;
+    height: 50vh;
+    width: 50vh;
     padding: 10px;
     border-radius: 10px;
 }
 .sectionHeading{
     font-size: 30px;
+    color: brown;
+}
+h3{
     color: brown;
 }
 .buttons{
