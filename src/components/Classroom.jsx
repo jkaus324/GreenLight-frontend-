@@ -5,6 +5,7 @@ const Classroom = () => {
   const currentUrl = window.location.pathname;
   const parts = currentUrl.split('/');
   const classCode = parts[parts.length - 1];
+  const [isHost, setIsHost] = useState(false);
 
   const [studentList, setStudentList] = useState([
     {
@@ -13,24 +14,24 @@ const Classroom = () => {
       present: false
     },
     {
-      id:1001,
+      id: 1001,
       name: 'Jatin',
-      present:true
+      present: true
     }
   ]);
 
-  useEffect(() => {
-    const response = axios.get('/classroom/:${classCode}')
-      .then(response => {
-        setJoinedClasses(response.data.joinedClasses);
-        setCreatedClasses(response.data.createdClasses);
-      })
-      .catch(error => {
-        console.error('Error fetching data: ', error);
-      });
+  // useEffect(() => {
+  //   const response = axios.get('/classroom/:${classCode}')
+  //     .then(response => {
+  //       setJoinedClasses(response.data.joinedClasses);
+  //       setCreatedClasses(response.data.createdClasses);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data: ', error);
+  //     });
 
-    setStudentList(response?.data?.studentList);
-  })
+  //   setStudentList(response?.data?.studentList);
+  // })
 
   const handleCheckboxChange = (index) => {
     const updatedStudentList = [...studentList];
@@ -48,6 +49,30 @@ const Classroom = () => {
       });
   };
 
+  function checkCookie(cookieName) {
+    const cookies = document.cookie.split(';');
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(cookieName + '=')) {
+        return cookie.substring(cookieName.length + 1);
+      }
+    }
+
+    return null;
+  }
+
+  const myCookieValue = checkCookie('myCookie');
+  if (myCookieValue) {
+    console.log('Found cookie value:', myCookieValue);
+    // check if the user is the host or not
+
+
+  } else {
+    console.log('Cookie not found');
+  }
+
+
   return (
     <div>
       <h1>Classroom: {classCode}</h1>
@@ -59,6 +84,7 @@ const Classroom = () => {
             <span>{student.name}</span>
             <input
               type="checkbox"
+              disabled={!isHost}
               name="present"
               checked={student.present}
               onChange={() => handleCheckboxChange(index)}
@@ -67,7 +93,7 @@ const Classroom = () => {
         ))}
       </ul>
 
-      <button onClick={saveAttendance}>Save Attendance</button>
+      <button disabled={!isHost} onClick={saveAttendance}>Save Attendance</button>
 
       <h2>Attendance: </h2>
       <ul>
