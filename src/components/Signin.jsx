@@ -17,7 +17,6 @@ function SignInForm() {
     setError('');
 
     try {
-<<<<<<< HEAD
       const response = await axios.post(`${server}/loginUser`, { email, password }, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -25,18 +24,11 @@ function SignInForm() {
       });
       localStorage.setItem('email', email);
       console.log(response.data); // You can handle the response accordingly
-=======
+
       const formData = new FormData();
       formData.append('email', email);
       formData.append('password', password);
 
-      const response = await axios.post(`${server}/loginUser`, formData);
-
-      // Set cookie
-      console.log(response.data.cookie);
-      setCookie('email', response.data.cookie) // Set the cookie with the received email
-      
->>>>>>> d244081e1a5d60d3354fe39d646e5f96bdfac407
       navigate('/dashboard');
     } catch (error) {
       setError('Invalid email or password. Please try again.'); // You can customize the error message
