@@ -1,0 +1,72 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(92, 92, 55);
+    font-family: 'Libre Barcode 39 Extended Text', sans-serif;
+  }
+  
+  p {
+    font-family: 'Cookie', cursive;
+    font-size: 3.5em;
+    text-align: center;
+  }
+  
+  /* Navigation Styles */
+  nav {
+    display: flex;
+    justify-content: center;
+    font-size: 1.3em;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    display: inline;
+    margin-right: 20px;
+  }
+  
+  a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  a:hover {
+    color: #aaa;
+  }
+  
+  /* Section Styles */
+  .section {
+    margin-bottom: 60px;
+  }
+  
+  .landing-page {
+    padding: 20px;
+  }
+  
+  #landing {
+    font-size: 36px;
+    color: #333;
+  }
+  
+  /* Specific Section Styles */
+  .about-section, .features-section, .contact-section {
+    padding: 20px;
+  }
+  
+  .about-section {
+    background-color: #f8f8f8;
+  }
+  
+  .features-section {
+    background-color: #e8e8e8;
+  }
+  
+  .contact-section {
+    background-color: #f0f0f0;
+  }
