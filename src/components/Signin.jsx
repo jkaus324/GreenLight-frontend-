@@ -1,15 +1,15 @@
-// SignInForm.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Signin.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { server } from '../App';
+import { useCookies } from 'react-cookie';
 
 function SignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [, setCookie] = useCookies(['email']);
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
@@ -17,12 +17,16 @@ function SignInForm() {
     setError('');
 
     try {
-      const response = await axios.post(`${server}/loginUser`, { email, password }, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      });
-      console.log(response.data); // You can handle the response accordingly
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+
+      const response = await axios.post(`${server}/loginUser`, formData);
+
+      // Set cookie
+      console.log(response.data.cookie);
+      setCookie('email', response.data.cookie) // Set the cookie with the received email
+      
       navigate('/dashboard');
     } catch (error) {
       setError('Invalid email or password. Please try again.'); // You can customize the error message
