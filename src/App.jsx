@@ -8,6 +8,8 @@ import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
 import Classroom from './components/Classroom';
 
+export const server = "http://localhost:3000/api"
+
 const App = () => {
   return (
     <BrowserRouter>

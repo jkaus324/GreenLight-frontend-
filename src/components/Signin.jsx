@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Signin.css';
 import {Link,useNavigate} from 'react-router-dom';
+import { server } from '../App';
 
 function SignInForm() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ function SignInForm() {
     setError('');
     
     try {
-      const response = await axios.post('/api/signin', { email, password });
+      const response = await axios.post(`${server}/loginUser`, { email, password });
       console.log(response.data); // You can handle the response accordingly
       navigate('/dashboard');
     } catch (error) {

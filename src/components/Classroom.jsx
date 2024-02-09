@@ -20,18 +20,15 @@ const Classroom = () => {
     }
   ]);
 
-  // useEffect(() => {
-  //   const response = axios.get('/classroom/:${classCode}')
-  //     .then(response => {
-  //       setJoinedClasses(response.data.joinedClasses);
-  //       setCreatedClasses(response.data.createdClasses);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data: ', error);
-  //     });
-
-  //   setStudentList(response?.data?.studentList);
-  // })
+  useEffect(() => {
+    const response = axios.get(`${server}/classroom/:${classCode}`) // check if link is valid
+      .then(response => {
+        setStudentList(response.data.studentList);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
+  },[])
 
   const handleCheckboxChange = (index) => {
     const updatedStudentList = [...studentList];
