@@ -6,19 +6,24 @@ import { server } from '../App';
 const Dashboard = () => {
   const [joinedClasses, setJoinedClasses] = useState([]);
   const [createdClasses, setCreatedClasses] = useState([]);
+  const email = localStorage.getItem('email');
   const [classCode, setClassCode] = useState('');
   const [className, setClassName] = useState('');
 
   useEffect(() => {
-    axios.get(`${server}/getDashboardDetails`)
-      .then(response => {
-        setJoinedClasses(response.data.joinedClasses);
-        setCreatedClasses(response.data.createdClasses);
-      })
-      .catch(error => {
-        console.error('Error fetching data: ', error);
-      });
-  }, []);
+    axios.get(`${server}/getDashboardDetails`, {
+      params: {
+        email: email
+      }
+    })
+    .then(response => {
+      setJoinedClasses(response.data.joinedClasses);
+      setCreatedClasses(response.data.createdClasses);
+    })
+    .catch(error => {
+      console.error('Error fetching data: ', error);
+    });
+  }, [email]); 
 
   async function joinSubmitHandler(e) {
     e.preventDefault();

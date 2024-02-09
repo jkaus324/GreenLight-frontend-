@@ -22,6 +22,7 @@ function SignInForm() {
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       });
+      localStorage.setItem('email', email);
       console.log(response.data); // You can handle the response accordingly
       navigate('/dashboard');
     } catch (error) {

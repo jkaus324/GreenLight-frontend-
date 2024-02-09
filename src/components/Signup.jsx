@@ -30,7 +30,7 @@ function Signup() {
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       });
-
+      localStorage.setItem('email', email);
       console.log(response.data);
       navigate('/dashboard');
       
