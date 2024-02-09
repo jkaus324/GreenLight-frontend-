@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Signup.css';
 import axios from 'axios'
 import {Link,useNavigate} from 'react-router-dom';
+import { server } from '../App';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -17,8 +18,17 @@ function Signup() {
     setError('');
     console.log({ username, email, password, confirmPassword, photo });
     try {
-      const response = await axios.get('/api/signup', {
-        username,email,password,confirmPassword,photo
+      const isMatching = (password === confirmPassword)
+      if(!isMatching){
+        throw new Error("Enter matching passwords");  // check if error is to be used this way
+      }
+
+      const response = await axios.get(`${server}/registerUser`, {
+        username,email,password,photo
+      },{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
       });
 
       console.log(response.data);

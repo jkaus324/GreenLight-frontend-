@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Dashboard.css';
+import { server } from '../App';
 
 const Dashboard = () => {
   const [joinedClasses, setJoinedClasses] = useState([]);
@@ -9,7 +10,7 @@ const Dashboard = () => {
   const [className, setClassName] = useState('');
 
   useEffect(() => {
-    axios.get('/classes')
+    axios.get(`${server}/getDashboardDetails`)
       .then(response => {
         setJoinedClasses(response.data.joinedClasses);
         setCreatedClasses(response.data.createdClasses);
@@ -23,10 +24,13 @@ const Dashboard = () => {
     e.preventDefault();
 
     try {
-      // await axios.post('/joinClassroom', { classCode });
+      const response = await axios.post('/joinClassroom', { classCode },{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      });
       console.log('Successfully joined classroom with code:', classCode);
-      // const response = await axios.get('/classes');
-      setJoinedClasses([{id: classCode, name: 'demo'}]);  // change the name from demo to response.data.name
+      setJoinedClasses(response.data.joinedClasses);  // change the name from demo to response.data.name
     } catch (error) {
       console.error('Error joining classroom: ', error);
     }
@@ -36,10 +40,9 @@ const Dashboard = () => {
     e.preventDefault();
 
     try {
-      // const response = await axios.post('/createClassroom', { className });
-      const className = 'demo';
+      const response = await axios.post('/createClassroom', { className });
       console.log('Successfully created classroom with name:', className);
-      setCreatedClasses([{ id: "0000", name: className}]);  // response.data.classes
+      setCreatedClasses(response.data.createdClasses);
     } catch (error) {
       console.error('Error creating classroom: ', error);
     }
@@ -68,7 +71,6 @@ const Dashboard = () => {
         <div>
           <h3>Joined Classes: </h3>
           <ul>
-            {console.log(joinedClasses)}
             {joinedClasses?.map(classItem => (
               <li key={classItem.id}>{classItem.id}  {classItem.name}</li>
             ))}
