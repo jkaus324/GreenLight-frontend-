@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { server } from '../App';
 
 const Classroom = () => {
   const currentUrl = window.location.pathname;
@@ -21,9 +22,13 @@ const Classroom = () => {
   ]);
 
   useEffect(() => {
-    const response = axios.get(`${server}/classroom/:${classCode}`) // check if link is valid
+    const response = axios.get(`${server}/classroom/:${classCode}`,{
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    }) // check if link is valid
       .then(response => {
-        setStudentList(response.data.studentList);
+        setStudentList(response?.data?.studentList);
       })
       .catch(error => {
         console.error('Error fetching data: ', error);
@@ -37,7 +42,11 @@ const Classroom = () => {
   };
 
   const saveAttendance = () => {
-    axios.post('/updateAttendance', studentList)
+    axios.post(`${server}/updateAttendance`, studentList,{
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    })
       .then(response => {
         console.log('Attendance updated successfully');
       })

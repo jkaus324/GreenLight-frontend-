@@ -25,6 +25,10 @@ function Signup() {
 
       const response = await axios.get(`${server}/registerUser`, {
         username,email,password,photo
+      },{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
       });
 
       console.log(response.data);

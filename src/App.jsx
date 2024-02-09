@@ -8,7 +8,7 @@ import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
 import Classroom from './components/Classroom';
 
-export const server = "http://localhost:3000/api"
+export const server = "http://localhost:8000/"
 
 const App = () => {
   return (

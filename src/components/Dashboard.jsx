@@ -24,7 +24,11 @@ const Dashboard = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/joinClassroom', { classCode });
+      const response = await axios.post('/joinClassroom', { classCode },{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      });
       console.log('Successfully joined classroom with code:', classCode);
       setJoinedClasses(response.data.joinedClasses);  // change the name from demo to response.data.name
     } catch (error) {
